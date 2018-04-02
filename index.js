@@ -4,12 +4,11 @@ const bot = new TelegramBot(token, {polling: true});
 
 
 const usr = 454788039;
-setInterval(() => {
-    bot.sendMessage(usr, "ซ่อม");
-}, 5000);
+bot.sendMessage(usr, "ซ่อม");
+// setInterval(() => {bot.sendMessage(usr, "ซ่อม");}, 5000);
 
 
-bot.on('message', (msg) => {
+bot.on('message', (msg) => {เร
     const check = "check";
     if (msg.text.toString().toLowerCase().includes(check)) {
         bot.sendMessage(msg.chat.id, "check");

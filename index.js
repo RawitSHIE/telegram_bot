@@ -5,7 +5,7 @@ const bot = new TelegramBot(token, {polling: true});
 
 const usr = 454788039;
 setInterval(() => {
-    bot.sendMessage(usr, "hi");
+    bot.sendMessage(usr, "ซ่อม");
 }, 5000);
 
 

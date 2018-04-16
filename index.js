@@ -1,14 +1,27 @@
 const TelegramBot = require('node-telegram-bot-api');
 const token = '572017543:AAFy1s2YoJf9a6kcUryIaoCKN9jUn9ftV_k';
 const bot = new TelegramBot(token, {polling: true});
+var express = require('express')
+var app = express()
+var NodeWebcam = require( 'node-webcam' );
+//Default options 
+var opts = {
+    width: 1920,
+    height: 1080,
+    quality: 100,
+    delay: 0, 
+    saveShots: true,
+    output: "jpeg",
+    device: false,
+    callbackReturn: "location",
+    verbose: false
+};
 
 
 const usr = 454788039;
 bot.sendMessage(usr, "ซ่อม");
-// setInterval(() => {bot.sendMessage(usr, "ซ่อม");}, 5000);
 
-
-bot.on('message', (msg) => {เร
+bot.on('message', (msg) => {
     const check = "check";
     if (msg.text.toString().toLowerCase().includes(check)) {
         bot.sendMessage(msg.chat.id, "check");
@@ -37,11 +50,26 @@ bot.onText(/\/start/, (msg) => {
 bot.onText(/\/keyboard/, (msg) => {
     bot.sendMessage(msg.chat.id, "Select Option", {
         "reply_markup": {
-            "keyboard": [["Alert", "Call 911"], ["Ignore"]]
+            "keyboard": [["/sendpic", "/openlive"]]
             }
         });
     });
 
 bot.onText(/\/sendpic/, (msg) => {
-    bot.sendPhoto(msg.chat.id,"https://www.somesite.com/image.jpg",{caption : "Here we go ! \nThis is just a caption "} );
+    var Webcam = NodeWebcam.create( opts );
+    Webcam.capture( "test_picture", function( err, data ) {} );
+    NodeWebcam.capture( "test_picture", opts, function( err, data ) {
+    });
+    Webcam.list( function( list ) {
+        var anotherCam = NodeWebcam.create( { device: list[ 0 ] } );
+    });
+    var opts = {
+        callbackReturn: "base64"
+    };
+    NodeWebcam.capture( "test_picture", opts, function( err, data ) {
+        var image = "<img src='" + data + "'>";
+    });
+
+    bot.sendPhoto(msg.chat.id,"test_picture.jpg",{caption : "Anonymous\nUnknow person"} );
+    
 });
